@@ -310,6 +310,22 @@ button {
     margin: 4px;
 }
 
+.category-block {
+    width: minmax(256px, 1fr);
+    border-radius: 16px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    box-shadow: #2c3e50 0 0 2px 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-block:hover {
+    box-shadow: #2c3e50 0 0.3rem 12px 6px;
+    transform: translateY(-0.25rem) scale(105%);
+}
+
 @keyframes pulse {
     0% { background-color: #d3d3d3 }
     10% { background-color: #c6c6c6 }
@@ -322,4 +338,14 @@ button {
     80% { background-color: #6e6e6e }
     90% { background-color: #626262 }
     100% { background-color: #555 }
+}
+
+@keyframes bounce {
+    0% { transform: scale(100%); }
+    20% { transform: scale(120%); }
+    40% { transform: scale(110%); }
+    50% { transform: scale(115%); }
+    60% { transform: scale(110%); }
+    80% { transform: scale(120%); }
+    100% { transform: scaleX(100%); }
 }

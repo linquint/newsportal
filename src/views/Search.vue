@@ -1,5 +1,19 @@
 <template>
   <div class="view">
+    <h1>Explore by category</h1>
+    <div class="category-list">
+
+      <template v-if="categories == null">
+        <CategorySkeleton v-for="i in 8" />
+      </template>
+
+      <template v-else-if="categories.length > 0">
+        <Category v-for="i in categories.length" :title="categories[i - 1].title" :count="categories[i - 1].count" @click="routeTo(categories[i - 1].title)" />
+      </template>
+      
+      <span v-else>{{ categoriesError }}</span>
+    </div>
+
     <h1>Search</h1>
     <form @submit.prevent="search()" class="search-form">
       <label for="search" class="login-label">Search</label>
@@ -28,17 +42,31 @@
 import axios from "axios";
 import Article from "../components/Article.vue";
 import ArticleSkeleton from "../components/UI/ArticleSkeleton.vue";
+import CategorySkeleton from "../components/UI/CategorySkeleton.vue";
+import Category from "../components/Category.vue";
 
 export default {
   name: "Search",
-  components: { Article, ArticleSkeleton },
+  components: { Article, ArticleSkeleton, CategorySkeleton, Category },
   data() {
     return {
       query: '',
       results: null,
       message: null,
       searching: false,
+      categories: null,
+      categoriesError: '',
     }
+  },
+  async created() {
+    await axios.get('/api/get-categories.php').then(response => response.data).then(json => {
+      if (json.success) {
+        this.categories = json.list
+      } else {
+        this.categories = []
+        this.categoriesError = json.message
+      }
+    })
   },
   methods: {
     async search() {
@@ -54,6 +82,9 @@ export default {
 
         this.searching = false
       })
+    },
+    routeTo(cat) {
+      this.$router.push('/category/' + cat)
     }
   }
 }
@@ -99,5 +130,11 @@ export default {
 .search-icon {
   width: 16px;
   aspect-ratio: 1;
+}
+
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+  gap: 1.5rem;
 }
 </style>
