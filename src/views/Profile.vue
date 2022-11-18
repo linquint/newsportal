@@ -1,12 +1,12 @@
 <template>
-  <div class="view">
-    Page not found
+  <div>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: "NotFound",
+  name: "Profile"
 }
 </script>
 

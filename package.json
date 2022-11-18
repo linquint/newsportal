@@ -8,7 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueform/multiselect": "^2.3.3",
+    "axios": "^0.26.1",
     "vue": "^3.2.25",
+    "vue-advanced-search": "^0.1.43",
     "vue-router": "^4.0.14",
     "vue-session": "^1.0.0"
   },
