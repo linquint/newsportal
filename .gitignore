@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Database
-api/
+api/*

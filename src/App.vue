@@ -32,7 +32,7 @@
   <div class="footer">
     <div class="flex-col">
       <p class="footer-title">Categories</p>
-      <div v-if="topCategories == null">
+      <div class="flex-col" v-if="topCategories == null">
         <router-link to="/category/Science" style="text-decoration: none; color: #222;"><span class="footer-url">Science</span></router-link>
         <router-link to="/category/Business" style="text-decoration: none; color: #222;"><span class="footer-url">Business</span></router-link>
         <router-link to="/category/Technology" style="text-decoration: none; color: #222;"><span class="footer-url">Technology</span></router-link>
@@ -100,16 +100,6 @@ export default {
   height: 100%;
 }
 
-nav {
-  display: flex;
-  flex-direction: row;
-  padding: 16px 0;
-  position: fixed;
-  width: var(--width);
-  background: white;
-  top: 0;
-}
-
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -118,23 +108,6 @@ nav {
 .brand {
   margin: 0 32px 0 0;
   font-size: 30px;
-}
-
-.nav-button {
-  padding: 8px 16px;
-  display: flex;
-  flex-direction: row;
-  margin: 0 12px;
-  border-radius: 8px;
-  transition: all 300ms ease-in-out;
-}
-
-.nav-button:hover {
-  background: #A0CA97;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px 4px #A0CA9799;
-  transform: scale(110%);
-  transition: all 300ms ease-in-out;
 }
 
 .footer {

@@ -11,81 +11,106 @@ body {
     text-align: center;
     color: #2c3e50;
     --comment-width: 512px;
-
     --width: 75%;
-    --view-margin-top: 70px;
     --article-margins: 16px;
 }
 
 .navigation-text {
-    font-size: 18px;
+    font-size: 1.25rem;
     font-weight: bold;
     text-decoration: none;
     color: #222;
 }
 
 .nav-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 16px;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.75rem;
+}
+
+.nav-button {
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: row;
+    margin: 0 0.75rem;
+    border-radius: 8px;
+    transition: all 300ms ease-in-out;
+}
+
+.nav-button:hover {
+    background: #A0CA97;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 4px #A0CA9799;
+    transform: scale(110%);
+    transition: all 300ms ease-in-out;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 0;
+    position: fixed;
+    gap: 0.5rem;
+    width: var(--width);
+    background: white;
+    top: 0;
+    z-index: 999;
 }
 
 .view {
     display: flex;
     flex-direction: column;
-    margin-top: var(--view-margin-top);
+    margin-top: 80px;
 }
 
 @media (max-width: 768px) {
     :root {
-        --width: 80%;
-        --view-margin-top: 63px;
-        transform: scale(90%) translateY(-5%);
+        --width: 85%;
     }
 
     .navigation-text {
-        display: none;
+        font-size: 1rem;
     }
 
     .nav-icon {
-        margin-right: 0;
+        width: 1rem;
+        height: 1rem;
+        margin: 0 auto;
     }
 
-    .comment-box {
-        transform: scale(80%);
+    .nav-button {
+        flex-direction: column;
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 512px) {
     :root {
-        --width: 90%;
-        --view-margin-top: 56px;
-        transform: scale(80%) translateY(-13%) translateX(-17%);
-        --comment-width: 384px;
+        --width: 94%;
+        --comment-width: clamp(324px, 80%, 416px);
     }
 
-    .comment-box {
-        transform: scale(60%);
+    nav h1 {
+        display: none;
     }
 }
 
 @media (max-width: 360px) {
     :root {
-        --width: 100%;
-        --view-margin-top: 52px;
-        transform: scale(60%) translateY(-33%) translateX(-30%);
+        --width: 96%;
         --article-margins: 4px;
-        --comment-width: 256px;
+        --comment-width: clamp(256px, 90%, 324px);
+    }
+
+    .navigation-text {
+        font-size: 0.75rem;
     }
 }
 
 @media (max-width: 280px) {
     :root {
-        --width: 100%;
-        --view-margin-top: 52px;
-        transform: scale(50%) translateY(-50%) translateX(-40%);
+        --width: 96%;
         --article-margins: 4px;
-        --comment-width: 192px;
+        --comment-width: clamp(192px, 90%, 252px);
     }
 }
 

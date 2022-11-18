@@ -5,6 +5,26 @@
     <div v-else>
       <h1>{{ article.title }}</h1>
 
+      <span>By {{ article.author }}</span>
+      <span>Published on {{ article.publish_date }}</span>
+
+      <div class="flex-row" style="gap: 2rem">
+        <div>
+          <img src="/src/assets/icons/like.png" alt="like" class="action-icon">
+          <span style="margin: auto 0">{{ article.likes }}</span>
+        </div>
+
+        <div>
+          <img src="/src/assets/icons/dislike.png" alt="dislike" class="action-icon">
+          <span style="margin: auto 0">{{ article.dislikes }}</span>
+        </div>
+      </div>
+
+      <div class="article-block">
+        <p v-html="article.content" class="article-text"></p>
+      </div>
+
+      <span style="font-size: 1rem; font-weight: bold; display: block; text-align: left;">Did you like this article?</span>
       <div class="flex-row">
         <button class="action-button" type="button" @click="rateArticle()">
           <img src="/src/assets/icons/like.png" alt="like" class="action-icon">
@@ -17,9 +37,7 @@
         </button>
       </div>
 
-      <div class="article-block">
-        <p v-html="article.content" class="article-text"></p>
-      </div>
+      <hr>
 
       <a v-if="!showComments" href="#" @click.prevent="loadComments()" style="text-decoration: none; color: #222222">
         <div class="login-button">
@@ -172,13 +190,14 @@ export default {
   background: transparent;
   outline: none;
   border: none;
-  transition: all .2s;
+  transition: all .25s;
   padding: 8px;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .action-button:hover {
-  transform: scale(120%);
+  transform: scaleX(120%);
   background: #FAC898;
 }
 
@@ -189,12 +208,12 @@ export default {
 }
 
 .article-block {
-  width: 50%;
+  width: clamp(256px, 80%, 1024px);
   margin: 0 auto;
 }
 
 .article-text {
-  text-align: left;
+  text-align: justify;
 }
 
 .login-input {

@@ -2,24 +2,24 @@
   <router-link :to="'/article/' + data.slug" style="text-decoration: none; color: #222;">
     <div class="news-block">
       <div class="news-header">
-        <img class="news-header-image" :src="'data:image;base64,' + data.header_image" :alt="'Photo: ' + data.title">
+        <img id="article-image" class="news-header-image" :src="getImageSrc()" :alt="'Photo: ' + data.title">
       </div>
 
       <div style="padding: 8px 16px">
         <div class="flex-row">
-          <router-link v-for="i in data.categories.length" class="news-category" :to="'/category/' + data.categories[i-1]" style="text-decoration: none; margin-right: 8px;">
-            <span class="category-link">{{ data.categories[i - 1] }}</span>
+          <router-link v-for="i in data.categories.length" class="news-category" :to="'/category/' + data.categories[i-1].title" style="text-decoration: none; margin-right: 8px;">
+            <span class="category-link">{{ data.categories[i - 1].title }}</span>
           </router-link>
         </div>
         <h4>{{ data.title }}</h4>
         <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: #666; font-size: 14px;">
-          <p>@{{ data.author }}</p>
+          <p>@{{ data.name }}</p>
           <p>{{ data.comments_count }} comments</p>
         </div>
 
         <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: #666; font-size: 14px;">
           <p>Published on {{ data.publish_date }}</p>
-          <p :style="ratingStyle() + '; font-weight: bold;'">{{ ratingText() }}</p>
+          <p :style="ratingStyle() + '; font-weight: bold;'">{{ data.rating }}</p>
         </div>
       </div>
     </div>
@@ -35,26 +35,28 @@ export default {
       type: Object
     }
   },
+  async created() {
+    
+  },
   data() {
     return {
-
+      imgData: null,
     }
   },
   methods: {
-    ratingText() {
-      if (this.data.rating === 0) {
-        return "No rating"
-      } else {
-        if (this.data.rating > 0) return '+' + this.data.rating
-        else return '-' + this.data.rating
-      }
-    },
     ratingStyle() {
       if (this.data.rating === 0) {
         return "color: #666"
       } else {
         if (this.data.rating > 0) return 'color: #00b300'
         else return 'color: #ff0000'
+      }
+    },
+    getImageSrc() {
+      if (this.data.header_image == null) {
+        return '/src/demo/photo.jpg'
+      } else {
+        return 'data:image;base64,' + this.data.header_image
       }
     }
   }

@@ -53,6 +53,7 @@ export default {
       await axios.post('/api/register.php', {
         "username": this.details.username,
         "password": this.details.password,
+        "passwordConfirm": this.details.confPassword,
         "email": this.details.email
       }).then(response => {
         console.log(JSON.stringify(response))

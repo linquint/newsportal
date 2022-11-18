@@ -7,21 +7,21 @@ $post = file_get_contents('php://input');
 $posted = json_decode($post, true);
 
 if (isset($posted)) {
-    $username = $posted['username'];
-    $password = $posted['password'];
-
-    if (isset($posted['username'] ) && isset($posted['password'])) {
+    if (isset($posted['username']) && isset($posted['password'])) {
         $account = new Account();
-        $loginData = $account->login($username, md5($password));
+        $username = $posted['username'];
+        $password = $posted['password'];
+        $loginData = $account->login($username, $password);
 
         if ($loginData != null) {
             $isAdmin = $account->isAdmin($loginData['id']);
-            $isAuthor = $account->isAuthor($loginData['id']);
+            $isAuthor = $account->isAuthor($loginData['username']);
             session_start();
             $_SESSION['isLoggedIn'] = true;
             $_SESSION['username'] = $loginData['username'];
             $_SESSION['isAdmin'] = $isAdmin;
             $_SESSION['isAuthor'] = $isAuthor;
+            $_SESSION['id'] = $loginData['id'];
             echo json_encode(array('success' => true, 'isAdmin' => $isAdmin, 'isAuthor' => $isAuthor, 'username' => $loginData['username']));
         } else {
             echo json_encode(array('success' => false, 'message' => 'Incorrect username or password'));
