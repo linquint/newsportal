@@ -197,7 +197,7 @@ export default {
 }
 
 .action-button:hover {
-  transform: scaleX(120%);
+  transform: scale(110%);
   background: #FAC898;
 }
 
