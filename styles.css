@@ -323,7 +323,7 @@ button {
 
 .category-block:hover {
     box-shadow: #2c3e50 0 0.3rem 12px 6px;
-    transform: translateY(-0.25rem) scale(105%);
+    transform: translateY(-0.25rem);
 }
 
 @keyframes pulse {
