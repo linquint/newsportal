@@ -7,18 +7,17 @@
 
       <div style="padding: 8px 16px">
         <div class="flex-row">
-          <router-link v-for="i in data.categories.length" class="news-category" :to="'/category/' + data.categories[i-1].title" style="text-decoration: none; margin-right: 8px;">
+          <router-link v-for="i in data.categories.length" :to="'/category/' + data.categories[i-1].title" style="text-decoration: none; margin-right: 8px;">
             <span class="category-link">{{ data.categories[i - 1].title }}</span>
           </router-link>
         </div>
-        <h4>{{ data.title }}</h4>
-        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: #666; font-size: 14px;">
+        <span class="news-title">{{ data.title }}</span>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: #666; font-size: 0.9rem;">
           <p>@{{ data.name }}</p>
-          <p>{{ data.comments_count }} comments</p>
         </div>
 
-        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: #666; font-size: 14px;">
-          <p>Published on {{ data.publish_date }}</p>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: #666; font-size: 0.9rem;">
+          <p>{{ data.publish_date }}</p>
           <p :style="ratingStyle() + '; font-weight: bold;'">{{ data.rating }}</p>
         </div>
       </div>
@@ -68,63 +67,43 @@ p {
   margin: 0;
 }
 
-h4 {
-  margin: 0 0 8px 0;
-  text-align: left;
-}
-
-.news-block {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  width: 416px;
-  border-radius: 16px;
-  margin: 16px 0;
-  box-shadow: 0 0 2px 2px #2c3e5099;
-  transition: all 200ms ease-in-out;
-}
-
 .news-header-image {
-  height: 192px;
-  min-width: 416px;
-  border-radius: 16px 16px 0 0;
+  aspect-ratio: 13/6;
+  width: 100%;
   object-fit: cover;
-  transition: all .4s ease-in;
+  border-radius: 8px;
+  transition: all .3s ease-in;
 }
 
 .news-block:hover .news-header-image {
-  transform: scale(110%);
+  transform: scale(115%);
 }
 
 .news-header {
   overflow: hidden;
-  height: 192px;
-  max-width: 416px;
-  border-radius: 16px 16px 0 0;
+  aspect-ratio: 13/6;
+  width: 100%;
   object-fit: cover;
+  border-radius: 8px;
 }
 
-.news-category {
+.news-title {
+  font-size: 1rem;
+  text-align: left;
+  margin: 0.5rem auto;
   color: #2c3e50;
-  font-size: 13px;
-}
-
-.news-author {
-  color: #666;
-}
-
-.news-block:hover {
-  box-shadow: 0 0 8px 8px #2c3e50;
-  transition: all 200ms ease-in-out;
+  display: block;
+  width: 100%;
 }
 
 .category-link {
   color: #42b983;
-  font-size: 14px;
+  font-size: 1rem;
   transition: all 0.2s;
 }
 
 .category-link:hover {
   color: #308060;
+  text-decoration: underline 1px #308060;
 }
 </style>

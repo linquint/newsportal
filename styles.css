@@ -55,6 +55,13 @@ nav {
     background: white;
     top: 0;
     z-index: 999;
+    margin: 0 auto;
+    width: 100%;
+}
+
+main {
+    width: clamp(256px, 80%, 1280px);
+    margin: 0 auto;
 }
 
 .view {
@@ -119,7 +126,6 @@ button {
 }
 
 .container {
-    width: var(--width);
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -255,20 +261,21 @@ button {
     border: 3px solid #2c3e50;
 }
 
+.article-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
+    gap: 1.5rem;
+    justify-items: center;
+}
+
 .news-block {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    width: 416px;
-    border-radius: 16px;
-    margin: 16px 0;
-    box-shadow: 0 0 2px 2px #2c3e5099;
+    display: block;
+    width: 100%;
     transition: all 200ms ease-in-out;
 }
 
-.news-block:hover {
-    box-shadow: 0 0 8px 8px #2c3e50;
-    transition: all 200ms ease-in-out;
+.news-block:hover .news-title {
+    text-decoration: 1px underline #2c3e50;
 }
 
 .comment-block {

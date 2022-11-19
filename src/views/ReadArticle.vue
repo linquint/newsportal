@@ -48,7 +48,7 @@
       <div v-if="showComments">
         <img v-if="showComments && comments == null" src="/src/assets/loading-comments.svg" alt="Loading" style="width: 32px; height: 32px;">
 
-        <form v-if="showComments && (comments != null || commentsMessage != null)" class="flex-col" @submit.prevent="postComment(replyTo != null)">
+        <form v-if="showComments && (comments != null || commentsMessage != null) && userDetails.loggedIn" class="flex-col" @submit.prevent="postComment(replyTo != null)">
           <div v-if="replyTo != null" class="comment-reply-block" style="width: var(--comment-width)">
             <p class="comment-reply-title">Replying to comment by <span class="comment-reply-user">{{ comments[replyTo].reply.username }}</span></p>
 
@@ -56,9 +56,18 @@
             <a href="#" style="text-decoration: none; color: #BE3A4E" @click.prevent="replyTo = null">Cancel reply</a>
           </div>
 
-          <textarea class="login-input" v-model="commentContent"></textarea>
+          <label for="comment"></label>
+          <textarea id="comment" name="comment" class="login-input" v-model="commentContent"></textarea>
+          <span>Commenting as <strong>{{ userDetails.user }}</strong></span>
           <input class="login-submit" type="submit" value="Post comment">
         </form>
+
+        <div v-if="!userDetails.loggedIn || userDetails.loggedIn == null" style="width: fit-content; margin: 1rem auto">
+          <h2>You must login to write a comment</h2>
+          <router-link :to="{name: 'Login'}" style="text-decoration: none; color: #222;"><div class="login-button">Log In</div></router-link>
+          <p>or</p>
+          <router-link :to="{name: 'Register'}" style="text-decoration: none; color: #222;"><div class="login-button">Register</div></router-link>
+        </div>
 
         <h3 v-if="commentsMessage != null">{{ commentsMessage }}</h3>
 

@@ -17,7 +17,7 @@
         </div>
       </router-link>
 
-      <router-link :to="{name: 'Account'}" style="text-decoration: none; color: #222; margin: 0 0 0 auto;">
+      <router-link :to="{name: 'Account'}" style="text-decoration: none; color: #222; margin: 0 1rem 0 auto;">
         <div class="nav-button">
           <img src="/src/assets/icons/user.png" alt="User" class="nav-icon">
           <span class="navigation-text">Account</span>
@@ -26,7 +26,10 @@
 
     </nav>
 
-    <router-view />
+    <main>
+      <router-view />
+    </main>
+    
   </div>
 
   <div class="footer">
@@ -106,7 +109,7 @@ export default {
 }
 
 .brand {
-  margin: 0 32px 0 0;
+  margin: 0 1.5rem 0 1rem;
   font-size: 30px;
 }
 

@@ -4,17 +4,13 @@
 
     <div style="padding: 8px 16px">
       <div class="flex-row">
-        <div v-for="i in 3" class="category-link article-skeleton-category"></div>
+        <div v-for="i in 3" class="article-skeleton-category"></div>
       </div>
       <h4 class="article-skeleton-title"></h4>
-      <div style="display: flex; flex-direction: row; justify-content: space-between; color: #666; font-size: 14px;">
-        <div class="flex-row"><p>@</p><p class="article-skeleton-info"></p></div>
-        <div class="flex-row"><p class="article-skeleton-info"></p><p> comments</p></div>
-      </div>
-
-      <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: #666; font-size: 14px;">
-        <div class="flex-row"><p>Published on </p><p class="article-skeleton-info"></p></div>
-        <div class="flex-row"><p class="article-skeleton-info"></p></div>
+      <div class="flex-row" style="color: #666; font-size: 0.9rem;"><p>@</p><p class="article-skeleton-info"></p></div>
+      <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;">
+        <div class="article-skeleton-info" />
+        <div class="article-skeleton-info" style="width: 32px" />
       </div>
     </div>
   </div>
@@ -28,30 +24,34 @@ export default {
 
 <style scoped>
 .article-skeleton-header {
-  width: 416px;
-  height: 192px;
-  border-radius: 16px 16px 0 0;
-  animation: pulse 1s infinite alternate linear;
+  width: 100%;
+  aspect-ratio: 13/6;
+  border-radius: 8px;
+  animation: pulse 1.5s infinite alternate linear;
 }
 
 .article-skeleton-category {
   width: 64px;
-  height: 20px;
-  margin-bottom: 8px;
-  animation: pulse 2s infinite alternate linear;
+  height: calc(1rem + 2px);
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 8px;
+  animation: pulse 1.5s infinite alternate linear;
 }
 
 .article-skeleton-title {
   width: 100%;
-  height: 45px;
-  animation: pulse 2s infinite alternate linear;
+  height: 66px;
+  border-radius: 8px;
+  animation: pulse 1.5s infinite alternate linear;
 }
 
 .article-skeleton-info {
   width: 96px;
   height: 20px;
   margin: 4px;
-  animation: pulse 2s infinite alternate linear;
+  border-radius: 8px;
+  animation: pulse 1.5s infinite alternate linear;
 }
 
 p {

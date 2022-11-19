@@ -15,10 +15,12 @@
     <label class="wa-label" for="category">Categories</label>
     <div v-if="categoriesList != null" style="width: 100%">
       <input class="wa-input" type="text" placeholder="Find category" v-model="searchQuery" id="category">
-      <div v-if="searchQuery !== ''" style="display: flex; flex-direction: row; flex-wrap: wrap; padding: 8px;">
-        <div v-for="i in categoriesList.length">
-          <span class="cs-added" v-if="displayResult(i - 1)" @click="handleSelection(categoriesList[i - 1])">{{ categoriesList[i - 1].title }}</span>
-        </div>
+      <div v-if="searchQuery !== ''" style="display: flex; flex-direction: row; flex-wrap: wrap;">
+        <template v-for="i in categoriesList.length">
+          <button v-if="displayResult(i - 1)" class="cs-added" @click="handleSelection(categoriesList[i - 1])">
+            <span>{{ categoriesList[i - 1].title }}</span>
+          </button>
+        </template>
       </div>
     </div>
 
@@ -62,7 +64,8 @@ export default {
       message: '',
       categories: [],
       categoriesList: null,
-      searchQuery: ''
+      searchQuery: '',
+      selectedCategories: [],
     }
   },
   methods: {
@@ -112,9 +115,7 @@ export default {
       this.searchQuery = ''
     },
     displayResult(id) {
-      console.log(id)
-
-      return this.categoriesList[id].title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      return this.categoriesList[id].title.toLowerCase().includes(this.searchQuery.toLowerCase()) && !this.categories.includes(this.categoriesList[id])
     }
   }
 }
@@ -128,5 +129,6 @@ export default {
     padding: 8px;
     margin: 8px;
     font-size: 12px;
+    cursor: pointer;
   }
 </style>
