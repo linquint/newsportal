@@ -14,10 +14,9 @@
       <span v-else>{{ categoriesError }}</span>
     </div>
 
-    <h1>Search</h1>
     <form @submit.prevent="search()" class="search-form">
-      <label for="search" class="login-label">Search</label>
-      <div style="display: flex; flex-direction: row;">
+      <label for="search" class="search-label">Search</label>
+      <div style="display: flex; flex-direction: row; gap: 1.5rem; width: 100%; margin: 0 auto; justify-content: center;">
         <input type="text" id="search" name="search" placeholder="Search query" v-model="query" class="search-input">
         <button type="submit" class="search-submit">
           <img src="/src/assets/icons/search.png" alt="Search" class="search-icon">
@@ -25,14 +24,14 @@
       </div>
     </form>
 
-    <div v-if="results != null" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-evenly;">
+    <div v-if="results != null" class="article-list">
       <Article v-for="i in results.length" :data="results[i-1]" />
     </div>
     <div v-if="message != null">
       {{ message }}
     </div>
 
-    <div v-if="searching" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-evenly;">
+    <div v-if="searching" class="article-list">
       <ArticleSkeleton v-for="i in 12" />
     </div>
   </div>
@@ -94,29 +93,39 @@ export default {
 .search-form {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 0.25rem auto 1rem;
+  width: 100%;
 }
 
 .search-input {
   padding: 8px;
-  font-size: 16px;
-  width: 360px;
-  margin-right: 16px;
+  font-size: 1rem;
+  width: clamp(240px, 80%, 384px);
   outline: none;
   border-radius: 8px;
-  border: 2px solid #2c3e5077;
+  background: transparent;
+  color: var(--text-color);
+  border: 2px solid var(--input-border-inactive);
   transition: .25s;
 }
 
+.search-label {
+  font-size: 1.75rem;
+  text-align: center;
+  margin: 1.5rem auto 0.75rem;
+  font-weight: bold;
+}
+
 .search-input:focus {
-  border-color: #2c3e50;
+  border-color: var(--input-border);
 }
 
 .search-submit {
   padding: 8px;
   vertical-align: center;
-  border-radius: 50%;
-  background: white;
+  border-radius: 8px;
+  background: #A0CA9755;
+  cursor: pointer;
   width: 40px;
   border: none;
   transition: .25s;

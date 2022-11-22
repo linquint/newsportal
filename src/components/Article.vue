@@ -12,11 +12,11 @@
           </router-link>
         </div>
         <span class="news-title">{{ data.title }}</span>
-        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: #666; font-size: 0.9rem;">
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: var(--text-color); font-size: 0.9rem;">
           <p>@{{ data.name }}</p>
         </div>
 
-        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: #666; font-size: 0.9rem;">
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: var(--text-color); font-size: 0.9rem;">
           <p>{{ data.publish_date }}</p>
           <p :style="ratingStyle() + '; font-weight: bold;'">{{ data.rating }}</p>
         </div>
@@ -44,8 +44,8 @@ export default {
   },
   methods: {
     ratingStyle() {
-      if (this.data.rating === 0) {
-        return "color: #666"
+      if (this.data.rating == 0) {
+        return "color: #ff7700"
       } else {
         if (this.data.rating > 0) return 'color: #00b300'
         else return 'color: #ff0000'
@@ -85,13 +85,14 @@ p {
   width: 100%;
   object-fit: cover;
   border-radius: 8px;
+  transition: all .3s ease-in;
 }
 
 .news-title {
   font-size: 1rem;
   text-align: left;
   margin: 0.5rem auto;
-  color: #2c3e50;
+  color: var(--text-color);
   display: block;
   width: 100%;
 }

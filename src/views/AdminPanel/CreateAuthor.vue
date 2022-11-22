@@ -1,7 +1,7 @@
 <template>
   <h2>Assign <span>author</span> role to user.</h2>
 
-  <router-link :to="{path: '/panel'}" style="text-decoration: none; color: #222; width: min-content; margin: 0 auto;"><div class="cancel-button">Cancel</div></router-link>
+  <router-link :to="{path: '/panel'}" style="text-decoration: none; color: var(--text-color); width: min-content; margin: 0 auto; background: transparent;"><div class="cancel-button">Cancel</div></router-link>
 
   <div class="flex-col">
     <form @submit.prevent="loadUser(username)" class="login-form">

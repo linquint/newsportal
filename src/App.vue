@@ -17,6 +17,16 @@
         </div>
       </router-link>
 
+      <button type="button" class="nav-button" v-if="areLightsOn" @click="changeTheme(false)">
+        <img src="./assets/icons/lights-off.png" alt="Lights off" class="nav-icon">
+        <span class="navigation-text">Lights Off</span>
+      </button>
+
+      <button type="button" class="nav-button" v-else @click="changeTheme(true)">
+        <img src="./assets/icons/lights-on.png" alt="Lights on" class="nav-icon">
+        <span class="navigation-text">Lights On</span>
+      </button>
+
       <router-link :to="{name: 'Account'}" style="text-decoration: none; color: #222; margin: 0 1rem 0 auto;">
         <div class="nav-button">
           <img src="/src/assets/icons/user.png" alt="User" class="nav-icon">
@@ -69,6 +79,7 @@ export default {
     return {
       topCategories: null,
       topAuthors: null,
+      areLightsOn: true,
     }
   },
   computed: {
@@ -77,7 +88,25 @@ export default {
     }
   },
   methods: {
+    changeTheme(lights) {
+      console.log(lights)
 
+      if (lights == null) {
+        this.$cookies.set('lights', true, 60 * 60 * 24 * 90)
+        document.body.classList.add('lights-on')
+        return
+      }
+
+      if (lights) {
+        document.body.classList.remove('lights-off')
+        document.body.classList.add('lights-on')
+      } else {
+        document.body.classList.remove('lights-on')
+        document.body.classList.add('lights-off')
+      }
+      this.areLightsOn = lights
+      this.$cookies.set('lights', lights, 60 * 60 * 24 * 90)
+    }
   },
   watch: {
     $route: {
@@ -88,6 +117,8 @@ export default {
     },
   },
   async created() {
+    this.changeTheme(this.$cookies.get('lights'))
+
     await axios.post('/api/getTopFooter.php').then(response => response.data).then(json => {
       if (json.success) {
         this.topCategories = json.topCategories

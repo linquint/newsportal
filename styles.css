@@ -13,27 +13,90 @@ body {
     --comment-width: 512px;
     --width: 75%;
     --article-margins: 16px;
+    --article-font-size: 2rem;
+}
+
+.lights-on {
+    background: #f2f2f2;
+    color: #444;
+    --nav-text-color: #222;
+    --nav-background: #f2f2f2;
+    --input-border-inactive: #2c3e5077;
+    --input-border: #2c3e50;
+    --icon-color: none;
+    --text-color: #444;
+    --text-color-invert: #bbb;
+    --text-color-light: #666;
+}
+
+.lights-off {
+    background: #333;
+    color: #f2f2f2;
+    --nav-text-color: #e2e2e2;
+    --nav-background: #222;
+    --input-border-inactive: #959ea777;
+    --input-border: #959ea7;
+    --icon-color: invert(100%);
+    --text-color: #f2f2f2;
+    --text-color-invert: #0d0d0d;
+    --text-color-light: #999;
+}
+
+.article-data-row {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+    :root {
+        --article-font-size: 1.5rem;
+    }
+}
+@media (max-width: 768px) {
+    :root {
+        --article-font-size: 1.25rem;
+    }
+}
+@media (max-width: 512px) {
+    :root {
+        --article-font-size: 1rem;
+    }
+    .article-data-row {
+        flex-direction: column;
+    }
+}
+@media (max-width: 320px) {
+    :root {
+        --article-font-size: 1rem;
+    }
 }
 
 .navigation-text {
     font-size: 1.25rem;
     font-weight: bold;
     text-decoration: none;
-    color: #222;
+    font-family: Nunito, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--nav-text-color);
 }
 
 .nav-icon {
     width: 1.5rem;
     height: 1.5rem;
     margin-right: 0.75rem;
+    filter: var(--icon-color);
 }
 
 .nav-button {
-    padding: 8px 16px;
+    padding: 0.5rem 1rem;
     display: flex;
     flex-direction: row;
     margin: 0 0.75rem;
     border-radius: 8px;
+    background: transparent;
+    border: none;
     transition: all 300ms ease-in-out;
 }
 
@@ -52,7 +115,7 @@ nav {
     position: fixed;
     gap: 0.5rem;
     width: var(--width);
-    background: white;
+    background: var(--nav-background);
     top: 0;
     z-index: 999;
     margin: 0 auto;
@@ -70,13 +133,24 @@ main {
     margin-top: 80px;
 }
 
+@media (max-width: 1024px) {
+    .navigation-text {
+        font-size: 1rem;
+    }
+
+    .nav-icon {
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
 @media (max-width: 768px) {
     :root {
         --width: 85%;
     }
 
     .navigation-text {
-        font-size: 1rem;
+        font-size: 0.75rem;
     }
 
     .nav-icon {
@@ -90,7 +164,7 @@ main {
     }
 }
 
-@media (max-width: 512px) {
+@media (max-width: 528px) {
     :root {
         --width: 94%;
         --comment-width: clamp(324px, 80%, 416px);
@@ -98,6 +172,11 @@ main {
 
     nav h1 {
         display: none;
+    }
+
+    .nav-button {
+        padding: 0.25rem 0.5rem;
+        margin: auto 0.5rem;
     }
 }
 
@@ -110,6 +189,17 @@ main {
 
     .navigation-text {
         font-size: 0.75rem;
+    }
+
+    .nav-icon {
+        width: 0.75rem;
+        height: 0.75rem;
+        margin: 0 auto;
+    }
+
+    .nav-button {
+        padding: 0.25rem 0.5rem;
+        margin: auto 0.25rem;
     }
 }
 
@@ -152,13 +242,14 @@ button {
     margin-bottom: 24px;
     font-size: 16px;
     outline: none;
-    border: 3px solid #2c3e5077;
+    border: 3px solid var(--input-border-inactive);
     border-radius: 8px;
+    color: var(--text-color);
     transition: .3s;
 }
 
 .login-input:focus {
-    border: 3px solid #2c3e50;
+    border: 3px solid var(--input-border);
 }
 
 .login-submit {
@@ -167,11 +258,16 @@ button {
     border-radius: 8px;
     border: 3px solid #42b983;
     margin-top: 16px;
+    background: transparent;
     background-image: linear-gradient(#42b983, #42b983);
     background-position: 0 50%;
     background-repeat: no-repeat;
     background-size: 0 100%;
     font-weight: bold;
+    font-family: Nunito, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--nav-text-color);
     transition: all 0.2s linear;
 }
 
@@ -190,6 +286,7 @@ button {
     background-position: 0 50%;
     background-repeat: no-repeat;
     background-size: 0 100%;
+    color: var(--text-color);
     transition: all 0.2s linear;
 }
 
@@ -197,6 +294,7 @@ button {
     transform: scale(115%);
     background-size: 100% 100%;
     box-shadow: 0 0 16px 4px #A0CA97aa;
+    color: #222;
 }
 
 .flex-col {
@@ -219,6 +317,7 @@ button {
     background-position: 0 50%;
     background-repeat: no-repeat;
     background-size: 0 100%;
+    color: var(--text-color);
     transition: all 0.3s linear;
 }
 
@@ -252,13 +351,14 @@ button {
     background: transparent;
     font-size: 14px;
     outline: none;
-    border: 3px solid #2c3e5077;
+    border: 3px solid var(--input-border-inactive);
+    color: var(--text-color);
     border-radius: 8px;
     transition: .3s;
 }
 
 .wa-input:focus {
-    border: 3px solid #2c3e50;
+    border: 3px solid var(--input-border);
 }
 
 .article-list {
@@ -275,7 +375,7 @@ button {
 }
 
 .news-block:hover .news-title {
-    text-decoration: 1px underline #2c3e50;
+    text-decoration: 1px underline var(--text-color);
 }
 
 .comment-block {
@@ -285,14 +385,14 @@ button {
     width: var(--comment-width);
     margin: 8px auto;
     padding: 8px;
-    border: 2px solid #2c3e50;
+    border: 2px solid var(--text-color);
 }
 
 .comment-reply-block {
     display: flex;
     flex-direction: column;
-    border-left: 3px solid #333;
-    background: #eee;
+    border-left: 3px solid var(--text-color);
+    background: var(--text-color-invert);
     text-align: left;
     padding: 4px 8px;
     margin: 4px auto;
@@ -303,12 +403,12 @@ button {
 .comment-reply-user {
     font-size: 12px;
     font-weight: bold;
-    color: #333;
+    color: var(--text-color);
 }
 
 .comment-reply-title {
     font-size: 12px;
-    color: #555;
+    color: var(--text-color);
     margin: 4px;
 }
 
@@ -323,13 +423,13 @@ button {
     padding: 0.5rem;
     display: flex;
     flex-direction: row;
-    box-shadow: #2c3e50 0 0 2px 2px;
+    box-shadow: var(--text-color) 0 0 2px 2px;
     cursor: pointer;
     transition: all 0.3s;
 }
 
 .category-block:hover {
-    box-shadow: #2c3e50 0 0.3rem 12px 6px;
+    box-shadow: var(--text-color) 0 0.3rem 12px 6px;
     transform: translateY(-0.25rem);
 }
 

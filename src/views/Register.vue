@@ -4,7 +4,7 @@
 
     <form @submit.prevent="register()" class="login-form">
       <label for="username" class="login-label">Username <span class="login-required">*</span></label>
-      <input type="text" id="username" name="username" class="login-input" minlength="4" maxlength="32" v-model="details.username">
+      <input type="text" id="username" name="username" class="login-input" minlength="4" maxlength="32" @focusout="checkProfanity()" @focusin="message = null" v-model="details.username">
       <div class="login-error" :class="correctLength('username')">Must be 4-32 characters long</div>
 
       <label for="email" class="login-label">Email <span class="login-required">*</span></label>
@@ -39,6 +39,7 @@ export default {
         confPassword: ''
       },
       message: null,
+      usernameSafe: false,
     }
   },
   methods: {
@@ -50,21 +51,35 @@ export default {
       }
     },
     async register() {
-      await axios.post('/api/register.php', {
-        "username": this.details.username,
-        "password": this.details.password,
-        "passwordConfirm": this.details.confPassword,
-        "email": this.details.email
-      }).then(response => {
-        console.log(JSON.stringify(response))
-        return response.data
-      }).then(async json => {
-        console.log(JSON.stringify(JSON))
+      if (this.usernameSafe) {
+        await axios.post('/api/register.php', {
+          "username": this.details.username,
+          "password": this.details.password,
+          "passwordConfirm": this.details.confPassword,
+          "email": this.details.email
+        }).then(response => {
+          console.log(JSON.stringify(response))
+          return response.data
+        }).then(async json => {
+          console.log(JSON.stringify(JSON))
 
+          if (json.success) {
+            await this.$router.push({name: 'Account'})
+          } else {
+            this.message = json.message
+          }
+        })
+      }
+    },
+    async checkProfanity() {
+      await axios.get('/api/profanity.php?text=' + this.details.username).then(response => response.data).then(json => {
         if (json.success) {
-          await this.$router.push({name: 'Account'})
-        } else {
-          this.message = json.message
+          if (json.containsProfanity) {
+            this.message = "Username cannot contain profanity";
+            this.usernameSafe = false
+          } else {
+            this.usernameSafe = true
+          }
         }
       })
     }

@@ -39,6 +39,7 @@ export default {
   background-color: blanchedalmond;
   display: flex;
   flex-direction: column;
+  color: #222;
 }
 
 .category-count-box span:first-child {

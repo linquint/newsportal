@@ -1,8 +1,8 @@
 <template>
   <div class="view">
     <div v-if="admin" class="flex-row" style="margin: 16px auto;">
-      <router-link :to="{ path: '/panel/authors' }" style="text-decoration: none; color: #222; margin: 0 16px;"><div class="nav-button">Manage Authors</div></router-link>
-      <router-link :to="{ path: '/panel/create' }" style="text-decoration: none; color: #222; margin: 0 16px;"><div class="nav-button">Create Author</div></router-link>
+      <router-link :to="{ path: '/panel/authors' }" style="text-decoration: none; color: var(--text-color); margin: 0 16px;"><div class="nav-button">Manage Authors</div></router-link>
+      <router-link :to="{ path: '/panel/create' }" style="text-decoration: none; color: var(--text-color); margin: 0 16px;"><div class="nav-button">Create Author</div></router-link>
     </div>
 
     <div v-else>

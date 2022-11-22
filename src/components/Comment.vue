@@ -9,7 +9,7 @@
     </div>
 
     <div v-if="comment.main != null" class="comment-reply-block">
-      <p class="comment-reply-title">Reply to comment by <span class="comment-reply-user">{{ comment.main.username }} </span>({{ comment.main.post_date }})</p>
+      <p class="comment-reply-title">Reply to comment by <span class="comment-reply-user">{{ comment.main.username }}</span> on {{ comment.main.post_date }}</p>
       <p v-if="comment.main.deleted" class="comment-reply-content deleted">[ deleted ]</p>
       <p v-else class="comment-reply-content">{{ comment.main.content }}</p>
     </div>
@@ -61,19 +61,19 @@ export default {
 .comment-user {
   font-size: 14px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-color);
   text-align: left;
 }
 
 .comment-date {
   font-size: 14px;
-  color: #666;
+  color: var(--text-color-light);
   text-align: left;
 }
 
 .comment-profile-picture {
   border-radius: 50%;
-  border: 2px solid #2c3e50;
+  border: 2px solid var(--input-border);
   width: 34px;
   height: 34px;
   margin: 0 8px 8px 0;
@@ -85,15 +85,18 @@ export default {
   padding: 4px;
   border-radius: 8px;
   width: fit-content;
+  color: var(--text-color);
   transition: all .2s;
 }
 
 .comment-reply:hover {
   background: #A0CA97;
+  color: #222;
 }
 
 .comment-delete:hover {
   background: #FAC898;
+  color: #222;
 }
 
 .deleted {
