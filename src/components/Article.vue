@@ -13,7 +13,7 @@
         </div>
         <span class="news-title">{{ data.title }}</span>
         <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: var(--text-color); font-size: 0.9rem;">
-          <p>@{{ data.name }}</p>
+          <p>By {{ data.name }}</p>
         </div>
 
         <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: var(--text-color); font-size: 0.9rem;">
@@ -54,8 +54,10 @@ export default {
     getImageSrc() {
       if (this.data.header_image == null) {
         return '/src/demo/photo.jpg'
+      } else if (this.data.header_image == "none.png") {
+        return '/images/none.png'
       } else {
-        return 'data:image;base64,' + this.data.header_image
+        return '/thumbnail/small_' + this.data.header_image
       }
     }
   }

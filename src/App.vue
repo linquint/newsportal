@@ -17,6 +17,13 @@
         </div>
       </router-link>
 
+      <router-link :to="{name: 'Popular'}" style="text-decoration: none; color: #222;">
+        <div class="nav-button">
+          <img src="/src/assets/icons/fire.png" alt="Popular" class="nav-icon">
+          <span class="navigation-text">Popular</span>
+        </div>
+      </router-link>
+
       <button type="button" class="nav-button" v-if="areLightsOn" @click="changeTheme(false)">
         <img src="./assets/icons/lights-off.png" alt="Lights off" class="nav-icon">
         <span class="navigation-text">Lights Off</span>
@@ -57,9 +64,14 @@
 
     <div class="flex-col">
       <p class="footer-title">Top authors</p>
-<!--      <router-link to="/category/Science" style="text-decoration: none; color: #222;">--><span class="footer-url">Science</span><!--</router-link>-->
-<!--      <router-link to="/category/Business" style="text-decoration: none; color: #222;">--><span class="footer-url">Business</span><!--</router-link>-->
-<!--      <router-link to="/category/Technology" style="text-decoration: none; color: #222;">--><span class="footer-url">Technology</span><!--</router-link>-->
+      <div class="flex-col" v-if="topAuthors == null">
+        <router-link to="/category/Science" style="text-decoration: none; color: #222;"><span class="footer-url">Science</span></router-link>
+        <router-link to="/category/Business" style="text-decoration: none; color: #222;"><span class="footer-url">Business</span></router-link>
+        <router-link to="/category/Technology" style="text-decoration: none; color: #222;"><span class="footer-url">Technology</span></router-link>
+      </div>
+      <div v-else class="flex-col">
+        <router-link v-for="i in topAuthors.length" :to="'/author/' + topAuthors[i-1].name" style="text-decoration: none; color: #222;"><span class="footer-url">{{ topAuthors[i-1].name }}</span></router-link>
+      </div>
     </div>
 
     <div class="flex-col">
@@ -89,8 +101,6 @@ export default {
   },
   methods: {
     changeTheme(lights) {
-      console.log(lights)
-
       if (lights == null) {
         this.$cookies.set('lights', true, 60 * 60 * 24 * 90)
         document.body.classList.add('lights-on')
@@ -117,6 +127,7 @@ export default {
     },
   },
   async created() {
+    console.log("lights on: " + this.$cookies.get('lights'))
     this.changeTheme(this.$cookies.get('lights'))
 
     await axios.post('/api/getTopFooter.php').then(response => response.data).then(json => {

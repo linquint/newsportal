@@ -90,7 +90,7 @@ export default {
     margin: 8px auto;
     text-align: left;
     font-weight: bold;
-    font-size: 20px;
-    color: #444;
+    font-size: 1.25rem;
+    color: var(--text-color-light);
   }
 </style>

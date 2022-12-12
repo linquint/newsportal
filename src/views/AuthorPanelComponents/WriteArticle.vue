@@ -48,11 +48,7 @@ export default {
   name: "WriteArticle",
   async created() {
     await axios.post('/api/getCategoriesList.php').then(response => response.data).then(json => {
-      console.log("JSON = " + JSON.stringify(json))
-
       this.categoriesList = json
-
-      console.log("JSON = " + JSON.stringify(this.categoriesList))
     })
   },
   data() {

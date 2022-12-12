@@ -7,7 +7,7 @@
         <div v-for="i in 3" class="article-skeleton-category"></div>
       </div>
       <h4 class="article-skeleton-title"></h4>
-      <div class="flex-row" style="color: var(--text-color); font-size: 0.9rem;"><p>@</p><p class="article-skeleton-info"></p></div>
+      <div class="flex-row" style="color: var(--text-color); font-size: 0.9rem;"><p>By </p><p class="article-skeleton-info"></p></div>
       <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;">
         <div class="article-skeleton-info" />
         <div class="article-skeleton-info" style="width: 32px" />

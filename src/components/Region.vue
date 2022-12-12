@@ -1,10 +1,10 @@
 <template>
-    <router-link :to="'/category/' + title" class="category-block">
+    <router-link :to="'/region/' + title" class="region-container">
         <div class="article-count">
             <span>{{ count }}</span>
             <span>articles</span>
         </div>
-        <span class="category-title">{{ title }}</span>
+        <span class="region-title">{{ title }}</span>
     </router-link>
 </template>
 
@@ -23,7 +23,8 @@ export default {
 }
 </script>
 
-<style scoped>a {
+<style scoped>
+a {
     display: flex;
     flex-direction: row;
     gap: 0.5em;
@@ -33,10 +34,10 @@ export default {
     text-decoration: none;
     color: var(--text-color);
 }
-a:hover .category-title {
+a:hover .region-title {
     text-decoration: underline;
 }
-.category-title {
+.region-title {
   font-size: 1.25em;
   text-align: left;
   align-self: center;

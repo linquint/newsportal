@@ -13,6 +13,8 @@ import ArticleList from "../views/AuthorPanelComponents/ArticleList.vue";
 import WriteArticle from "../views/AuthorPanelComponents/WriteArticle.vue";
 import edit from "../views/Account/edit.vue";
 import ReadArticle from "../views/ReadArticle.vue";
+import Author from "../views/Author.vue";
+import Popular from "../views/Popular.vue";
 
 const routes = [
     {
@@ -101,6 +103,26 @@ const routes = [
         path: '/:catchAll(.*)',
         component: NotFound,
         meta: { title: 'Page not found - 16min' },
+    },
+    {
+        path: '/author/:author',
+        name: 'Author',
+        component: Author,
+        props: true,
+        meta: { title: 'Author - 16min' }
+    },
+    {
+        path: '/region/:region',
+        name: 'Region',
+        component: Main,
+        props: true,
+        meta: { title: 'Regional News - 16min' }
+    },
+    {
+        path: '/popular',
+        name: 'Popular',
+        component: Popular,
+        meta: { title: 'Explore Most Popular - 16min' }
     }
 ]
 

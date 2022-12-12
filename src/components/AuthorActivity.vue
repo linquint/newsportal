@@ -1,29 +1,24 @@
 <template>
-    <router-link :to="'/category/' + title" class="category-block">
+    <router-link :to="'/author/' + name" class="author-container">
         <div class="article-count">
-            <span>{{ count }}</span>
+            <span>{{ articles }}</span>
             <span>articles</span>
         </div>
-        <span class="category-title">{{ title }}</span>
+        <div class="author">
+            <span>{{ name }}</span>
+            <span>@{{ handle }}</span>
+        </div>
     </router-link>
 </template>
 
 <script>
 export default {
-    props: {
-        title: {
-            required: true,
-            type: String
-        },
-        count: {
-            required: true,
-            type: Number
-        }
-    }
+    props: [ 'name', 'handle', 'articles' ]
 }
 </script>
 
-<style scoped>a {
+<style scoped>
+a {
     display: flex;
     flex-direction: row;
     gap: 0.5em;
@@ -33,13 +28,8 @@ export default {
     text-decoration: none;
     color: var(--text-color);
 }
-a:hover .category-title {
+a:hover .author span:first-child {
     text-decoration: underline;
-}
-.category-title {
-  font-size: 1.25em;
-  text-align: left;
-  align-self: center;
 }
 
 .article-count {
@@ -53,5 +43,20 @@ a:hover .category-title {
 .article-count span:first-child {
     font-weight: bold;
     font-size: 1.25em;
+}
+.author {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+.author span {
+    text-align: left;
+}
+.author span:first-child {
+    font-weight: bold;
+    font-size: 1em;
+}
+.author span:last-child {
+    font-size: 0.8em;
 }
 </style>

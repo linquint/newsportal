@@ -5,7 +5,7 @@
     <div v-else>
       <div v-if="imageData == null" class="image-skeleton" />
       <template v-else-if="!imageData" />
-      <img v-else class="article-image" :src="imageData" :alt="'Photo: ' + article.title">
+      <img v-else-if="imageData != 'none.png'" class="article-image" :src="imageData" :alt="'Photo: ' + article.title">
 
       <h1 style="font-size: var(--article-font-size); text-align: left;">{{ article.title }}</h1>
 
@@ -23,14 +23,19 @@
         </div>
 
         <div class="flex-col">
-          <span style="text-align: left;">By @<span style="font-weight: bold;">{{ article.name }}</span></span>
+          <span style="text-align: left;">
+            By 
+            <router-link style="text-align: left; text-decoration: none;" :to="'/author/' + article.name">
+              <span class="article-author">{{ article.name }}</span>
+            </router-link>
+          </span>
+
           <span style="text-align: left;">Published on {{ article.publish_date }}</span>
         </div>
       </div>
 
-      <div class="article-block">
-        <p v-html="article.content" class="article-text"></p>
-      </div>
+      <p v-if="article.summary != null" v-html="article.summary" class="article-summary"></p>
+      <p v-html="article.content" class="article-text"></p>
 
       <span style="font-size: 1rem; font-weight: bold; display: block; text-align: left; margin-top: 0.5rem;">Did you like this article?</span>
       <div class="flex-row">
@@ -45,12 +50,25 @@
         </button>
       </div>
 
-      <span style="font-size: 1rem; font-weight: bold; display: block; text-align: left;">Discover more from {{ (article.categories.length > 1) ? 'these categories' : 'this category' }}</span>
+      <template v-if="article.categories.length > 0">
+        <span style="font-size: 1rem; font-weight: bold; display: block; text-align: left;">Discover more from {{ (article.categories.length > 1) ? 'these categories' : 'this category' }}</span>
+        <div class="flex-row" style="gap: 1rem;">
+          <router-link v-for="i in article.categories.length" :to="'/category/' + article.categories[i-1].title" style="text-decoration: none;">
+            <span class="category-link">{{ article.categories[i - 1].title }}</span>
+          </router-link>
+        </div>
+      </template>
+
+      <span style="font-size: 1rem; font-weight: bold; display: block; text-align: left;">Discover what else is happening in {{ article.region }}</span>
       <div class="flex-row" style="gap: 1rem;">
-        <router-link v-for="i in article.categories.length" :to="'/category/' + article.categories[i-1].title" style="text-decoration: none;">
-          <span class="category-link">{{ article.categories[i - 1].title }}</span>
+        <router-link :to="'/region/' + article.region" style="text-decoration: none;">
+          <span class="category-link">{{ article.region }}</span>
         </router-link>
       </div>
+
+      <a :href="article.origin" style="text-decoration: none;" target="_blank">
+        <span class="category-link">Open original article</span>
+      </a>
 
       <hr />
 
@@ -255,7 +273,7 @@ export default {
       await axios.get('/api/article-img.php?id=' + this.slug).then(response => response.data).then(json => {
         if (json.success) {
           if (json.data != 'none') {
-            this.imageData = "data:image;base64," + json.data
+            this.imageData = '/images/' + json.data
           } else {
             this.imageData = "/src/demo/photo.jpg"
           }
@@ -292,6 +310,7 @@ export default {
   height: 1.5rem;
   aspect-ratio: 1;
   margin-right: 8px;
+  filter: var(--icon-color);
 }
 
 .article-block {
@@ -336,5 +355,20 @@ export default {
 .category-link:hover {
   color: #308060;
   text-decoration: underline 1px #308060;
+}
+
+.article-author {
+  font-weight: bold;
+  color: var(--input-border);
+}
+
+.article-author:hover {
+  text-decoration: underline 1px var(--input-border);
+}
+
+.article-summary {
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: justify;
 }
 </style>

@@ -27,10 +27,11 @@ body {
     --text-color: #444;
     --text-color-invert: #bbb;
     --text-color-light: #666;
+    --emphasis-red: #bb3b3c;
 }
 
 .lights-off {
-    background: #333;
+    background: #222;
     color: #f2f2f2;
     --nav-text-color: #e2e2e2;
     --nav-background: #222;
@@ -40,6 +41,12 @@ body {
     --text-color: #f2f2f2;
     --text-color-invert: #0d0d0d;
     --text-color-light: #999;
+    --emphasis-red: #ff8b8f;
+}
+
+.highlight {
+    font-weight: bold;
+    color: var(--emphasis-red);
 }
 
 .article-data-row {
@@ -188,12 +195,12 @@ main {
     }
 
     .navigation-text {
-        font-size: 0.75rem;
+        font-size: 0.5rem;
     }
 
     .nav-icon {
-        width: 0.75rem;
-        height: 0.75rem;
+        width: 1rem;
+        height: 1rem;
         margin: 0 auto;
     }
 
@@ -415,22 +422,6 @@ button {
 .comment-reply-content {
     font-size: 13px;
     margin: 4px;
-}
-
-.category-block {
-    width: minmax(256px, 1fr);
-    border-radius: 16px;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: row;
-    box-shadow: var(--text-color) 0 0 2px 2px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.category-block:hover {
-    box-shadow: var(--text-color) 0 0.3rem 12px 6px;
-    transform: translateY(-0.25rem);
 }
 
 @keyframes pulse {
