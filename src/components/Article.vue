@@ -57,7 +57,11 @@ export default {
       } else if (this.data.header_image == "none.png") {
         return '/images/none.png'
       } else {
-        return '/thumbnail/small_' + this.data.header_image
+        let img = this.data.header_image
+        if (img.includes('.png') || img.includes('.jpg') || img.includes('.gif') || img.includes('.webp')) {
+          return '/thumbnail/small_' + this.data.header_image
+        }
+        return '/thumbnail/small_' + this.data.header_image + '.webp';
       }
     }
   }

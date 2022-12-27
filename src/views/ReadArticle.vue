@@ -51,7 +51,7 @@
       </div>
 
       <template v-if="article.categories.length > 0">
-        <span style="font-size: 1rem; font-weight: bold; display: block; text-align: left;">Discover more from {{ (article.categories.length > 1) ? 'these categories' : 'this category' }}</span>
+        <span style="font-size: 1rem; font-weight: bold; display: block; text-align: left;">Discover more from <span class="highlight">{{ (article.categories.length > 1) ? 'these categories' : 'this category' }}</span></span>
         <div class="flex-row" style="gap: 1rem;">
           <router-link v-for="i in article.categories.length" :to="'/category/' + article.categories[i-1].title" style="text-decoration: none;">
             <span class="category-link">{{ article.categories[i - 1].title }}</span>
@@ -59,17 +59,20 @@
         </div>
       </template>
 
-      <span style="font-size: 1rem; font-weight: bold; display: block; text-align: left;">Discover what else is happening in {{ article.region }}</span>
+      <span style="font-size: 1rem; font-weight: bold; display: block; text-align: left;">Discover what else has happened in <span class="highlight">{{ article.region }}</span></span>
       <div class="flex-row" style="gap: 1rem;">
         <router-link :to="'/region/' + article.region" style="text-decoration: none;">
           <span class="category-link">{{ article.region }}</span>
         </router-link>
       </div>
 
-      <a :href="article.origin" style="text-decoration: none;" target="_blank">
-        <span class="category-link">Open original article</span>
-      </a>
-
+      <span style="font-size: 1rem; font-weight: bold; display: block; text-align: left;">Would like to read <span class="highlight">original article</span> instead?</span>
+      <div class="flex-row" style="gap: 1rem;">
+        <a :href="article.origin" style="text-decoration: none;" target="_blank">
+          <span class="category-link">Open original article</span>
+        </a>
+      </div>
+      
       <hr />
 
       <a
@@ -273,7 +276,12 @@ export default {
       await axios.get('/api/article-img.php?id=' + this.slug).then(response => response.data).then(json => {
         if (json.success) {
           if (json.data != 'none') {
-            this.imageData = '/images/' + json.data
+            let img = json.data
+            if (img.includes('.png') || img.includes('.jpg') || img.includes('.gif') || img.includes('.webp')) {
+              this.imageData = '/images/' + json.data
+            } else {
+              this.imageData = '/images/' + json.data + '.png'
+            }
           } else {
             this.imageData = "/src/demo/photo.jpg"
           }

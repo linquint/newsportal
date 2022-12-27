@@ -3,7 +3,7 @@
     <nav>
       <h1 class="brand">16min</h1>
 
-      <router-link :to="{name: 'Home'}" style="text-decoration: none; color: #222;">
+      <router-link :to="{name: 'Home'}" style="text-decoration: none; color: #222">
         <div class="nav-button">
           <img src="/src/assets/icons/news.png" alt="News" class="nav-icon">
           <span class="navigation-text">News</span>

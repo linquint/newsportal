@@ -1,13 +1,16 @@
 <template>
   <div class="view">
-    <h1>Most <span class="highlight">read</span> stories past <span class="highlight">24 hours</span></h1>
-    <div v-if="hottest != null" class="article-list hot-articles">
-      <Article v-for="i in count" :data="hottest[i-1]" />
-    </div>
+    <template v-if="category == null && region == null">
+      <h1>Most <span class="highlight">read</span> stories past <span class="highlight">24 hours</span></h1>
+      <div v-if="hottest != null" class="article-list hot-articles">
+        <Article v-for="i in count" :data="hottest[i-1]" />
+      </div>
 
-    <div v-if="hottest == null && error == null" class="article-list hot-articles">
-      <ArticleSkeleton v-for="i in count" />
-    </div>
+      <div v-if="hottest == null && error == null" class="article-list hot-articles">
+        <ArticleSkeleton v-for="i in count" />
+      </div>
+    </template>
+    
 
     <h1 v-if="category == null && region == null">Latest News</h1>
     <h1 v-if="category != null">{{ category }} news</h1>
