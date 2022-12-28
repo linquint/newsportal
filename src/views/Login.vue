@@ -1,6 +1,5 @@
 <template>
-  <div class="view">
-    <h1>Log In</h1>
+  <div class="account-container">
     <form class="login-form" @submit.prevent="login()">
       <label for="username" class="login-label">Username</label>
       <input type="text" id="username" name="username" class="login-input" v-model="username">
@@ -48,7 +47,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

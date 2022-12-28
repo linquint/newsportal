@@ -1,5 +1,20 @@
 <template>
   <div class="view">
+    <section class="list" :style="action && windowWidth < 721 ? 'display: none' : ''">
+      <template v-if="author">
+        <router-link :to="{ path: '/panel/authors' }" style="text-decoration: none;"><div class="account-button">Manage Authors</div></router-link>
+        <router-link :to="{ path: '/panel/create' }" style="text-decoration: none;"><div class="account-button">Create Author</div></router-link>
+      </template>
+    </section>
+
+    <section class="reader" v-if="(action && windowWidth < 721) || (windowWidth > 720)">
+      <span v-if="!author" class="account-container" style="font-size: 1.5em; font-weight: bold;">You do not have access to this content</span>
+
+      <router-view v-else />
+    </section>
+  </div>
+
+  <!-- <div class="view">
     <div v-if="author" class="flex-row" style="margin: 16px auto 0;">
       <router-link :to="{ path: '/author-panel/articles' }" style="text-decoration: none; color: #222;">
         <div class="nav-button">
@@ -21,7 +36,7 @@
     </div>
 
     <router-view></router-view>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -32,6 +47,8 @@ export default {
   data() {
     return {
       author: false,
+      action: false,
+      windowWidth: window.innerWidth,
     }
   },
   async created() {
@@ -42,6 +59,26 @@ export default {
     await axios.post('/api/details.php', { 'request': 'is_author', 'username': localStorage.getItem('user') }).then(response => response.data).then(json => {
       if (json.success) this.author = json.author
     })
+  },
+  methods: {
+    getWidth() {
+      return window.innerWidth;
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize);
+    });
+    this.action = this.$route.path.includes('author-panel/')
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.onResize);
+  },
+  updated() {
+    this.action = this.$route.path.includes('author-panel/')
   }
 }
 </script>

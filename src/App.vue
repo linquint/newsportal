@@ -1,40 +1,40 @@
 <template>
   <div class="container">
-    <nav>
-      <h1 class="brand">16min</h1>
+    <div class="top-bar">
+      <h1>{{ $route.meta.title.replace(' - 16min', '') ?? "16min" }}</h1>
 
-      <router-link :to="{name: 'Home'}" style="text-decoration: none; color: #222">
+      <button type="button" class="nav-button" v-if="areLightsOn" @click="changeTheme(false)" style="width: 52px; height: 52px; margin: 0 2em 0 auto;">
+        <img src="./assets/icons/lights-off.png" alt="Lights off" class="nav-icon">
+      </button>
+
+      <button type="button" class="nav-button" v-else @click="changeTheme(true)" style="width: 52px; height: 52px; margin: 0 2em 0 auto;">
+        <img src="./assets/icons/lights-on.png" alt="Lights on" class="nav-icon">
+      </button>
+    </div>
+
+    <nav>
+      <router-link :to="{name: 'Home'}" style="text-decoration: none; color: #222; width: calc(80px - 1em);">
         <div class="nav-button">
           <img src="/src/assets/icons/news.png" alt="News" class="nav-icon">
           <span class="navigation-text">News</span>
         </div>
       </router-link>
 
-      <router-link :to="{name: 'Search'}" style="text-decoration: none; color: #222;">
+      <router-link :to="{name: 'Search'}" style="text-decoration: none; color: #222; width: calc(80px - 1em);">
         <div class="nav-button">
           <img src="/src/assets/icons/search.png" alt="Search" class="nav-icon">
           <span class="navigation-text">Search</span>
         </div>
       </router-link>
 
-      <router-link :to="{name: 'Popular'}" style="text-decoration: none; color: #222;">
+      <router-link :to="{name: 'Popular'}" style="text-decoration: none; color: #222; width: calc(80px - 1em);">
         <div class="nav-button">
-          <img src="/src/assets/icons/fire.png" alt="Popular" class="nav-icon">
-          <span class="navigation-text">Popular</span>
+          <img src="/src/assets/icons/fire.png" alt="Trending" class="nav-icon">
+          <span class="navigation-text">Trending</span>
         </div>
       </router-link>
 
-      <button type="button" class="nav-button" v-if="areLightsOn" @click="changeTheme(false)">
-        <img src="./assets/icons/lights-off.png" alt="Lights off" class="nav-icon">
-        <span class="navigation-text">Lights Off</span>
-      </button>
-
-      <button type="button" class="nav-button" v-else @click="changeTheme(true)">
-        <img src="./assets/icons/lights-on.png" alt="Lights on" class="nav-icon">
-        <span class="navigation-text">Lights On</span>
-      </button>
-
-      <router-link :to="{name: 'Account'}" style="text-decoration: none; color: #222; margin: 0 1rem 0 auto;">
+      <router-link :to="{name: 'Account'}" style="text-decoration: none; color: #222; width: calc(80px - 1em);">
         <div class="nav-button">
           <img src="/src/assets/icons/user.png" alt="User" class="nav-icon">
           <span class="navigation-text">Account</span>
@@ -46,39 +46,6 @@
     <main>
       <router-view />
     </main>
-    
-  </div>
-
-  <div class="footer">
-    <div class="flex-col">
-      <p class="footer-title">Categories</p>
-      <div class="flex-col" v-if="topCategories == null">
-        <router-link to="/category/Science" style="text-decoration: none; color: #222;"><span class="footer-url">Science</span></router-link>
-        <router-link to="/category/Business" style="text-decoration: none; color: #222;"><span class="footer-url">Business</span></router-link>
-        <router-link to="/category/Technology" style="text-decoration: none; color: #222;"><span class="footer-url">Technology</span></router-link>
-      </div>
-      <div v-else class="flex-col">
-        <router-link v-for="i in topCategories.length" :to="'/category/' + topCategories[i-1].title" style="text-decoration: none; color: #222;"><span class="footer-url">{{ topCategories[i-1].title }}</span></router-link>
-      </div>
-    </div>
-
-    <div class="flex-col">
-      <p class="footer-title">Top authors</p>
-      <div class="flex-col" v-if="topAuthors == null">
-        <router-link to="/category/Science" style="text-decoration: none; color: #222;"><span class="footer-url">Science</span></router-link>
-        <router-link to="/category/Business" style="text-decoration: none; color: #222;"><span class="footer-url">Business</span></router-link>
-        <router-link to="/category/Technology" style="text-decoration: none; color: #222;"><span class="footer-url">Technology</span></router-link>
-      </div>
-      <div v-else class="flex-col">
-        <router-link v-for="i in topAuthors.length" :to="'/author/' + topAuthors[i-1].name" style="text-decoration: none; color: #222;"><span class="footer-url">{{ topAuthors[i-1].name }}</span></router-link>
-      </div>
-    </div>
-
-    <div class="flex-col">
-      <p class="footer-title">Account</p>
-      <router-link to="/login" style="text-decoration: none; color: #222;"><span class="footer-url">Log in</span></router-link>
-      <router-link to="/register" style="text-decoration: none; color: #222;"><span class="footer-url">Register</span></router-link>
-    </div>
   </div>
 </template>
 
@@ -148,6 +115,35 @@ export default {
 .flex-row {
   display: flex;
   flex-direction: row;
+}
+
+.top-bar {
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  z-index: 9999;
+  background: var(--nav-background);
+  padding: 0 1em;
+  border-bottom: var(--border-thin);
+  display: flex;
+  flex-direction: row;
+}
+
+.top-bar h1 {
+  font-size: 1.25em;
+  text-align: left;
+  margin: 16px 0;
+  width: fit-content;
+}
+
+.top-bar button {
+  align-self: center;
+}
+
+.top-bar button img {
+  width: 32px;
+  height: 32px;
+  margin: auto;
 }
 
 .brand {

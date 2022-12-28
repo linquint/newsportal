@@ -1,25 +1,13 @@
 <template>
-  <router-link :to="'/article/' + data.slug" style="text-decoration: none; color: #222;">
+  <router-link :to="prefix + '/article/' + data.slug" style="text-decoration: none; color: #222;">
     <div class="news-block">
-      <div class="news-header">
-        <img id="article-image" class="news-header-image" :src="getImageSrc()" :alt="'Photo: ' + data.title">
-      </div>
+      <img id="article-image" class="news-header-image" :src="getImageSrc()" alt="">
+      <span class="news-title">{{ data.title }}</span>
 
-      <div style="padding: 8px 16px">
-        <div class="flex-row">
-          <router-link v-for="i in data.categories.length" :to="'/category/' + data.categories[i-1].title" style="text-decoration: none; margin-right: 8px;">
-            <span class="category-link">{{ data.categories[i - 1].title }}</span>
-          </router-link>
-        </div>
-        <span class="news-title">{{ data.title }}</span>
-        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: var(--text-color); font-size: 0.9rem;">
-          <p>By {{ data.name }}</p>
-        </div>
-
-        <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; color: var(--text-color); font-size: 0.9rem;">
-          <p>{{ data.publish_date }}</p>
-          <p :style="ratingStyle() + '; font-weight: bold;'">{{ data.rating }}</p>
-        </div>
+      <div style="grid-column: 1 / 3; margin-top: 0.5em; display: flex; gap: 0.75em;">
+        <span class="news-detail">{{ data.name }}</span>
+        <span class="news-detail">{{ postTimeAgo() }}</span>
+        <span class="news-detail" :style="ratingStyle() + '; font-weight: bold'">{{ data.rating }}</span>
       </div>
     </div>
   </router-link>
@@ -32,6 +20,11 @@ export default {
     data: {
       required: true,
       type: Object
+    },
+    prefix: {
+      required: false,
+      type: String,
+      default: ''
     }
   },
   async created() {
@@ -53,64 +46,34 @@ export default {
     },
     getImageSrc() {
       if (this.data.header_image == null) {
-        return '/src/demo/photo.jpg'
+        return 'http://54.195.54.174/src/demo/photo.jpg'
       } else if (this.data.header_image == "none.png") {
-        return '/images/none.png'
+        return 'http://54.195.54.174/images/none.png'
       } else {
         let img = this.data.header_image
         if (img.includes('.png') || img.includes('.jpg') || img.includes('.gif') || img.includes('.webp')) {
-          return '/thumbnail/small_' + this.data.header_image
+          return 'http://54.195.54.174/thumbnail/small_' + this.data.header_image
         }
-        return '/thumbnail/small_' + this.data.header_image + '.webp';
+        return 'http://54.195.54.174/thumbnail/small_' + this.data.header_image + '.webp';
       }
+    },
+    postTimeAgo() {
+      let now = new Date()
+      let ms = (now - new Date(this.data.publish_date))
+      let mins = Math.ceil(ms / 60000)
+      if (mins < 60) return mins + 'min'
+
+      let hrs = Math.floor(mins / 60)
+      if (hrs < 24) return hrs + 'h'
+
+      return Math.floor(hrs / 24) + 'd'
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
 p {
   margin: 0;
-}
-
-.news-header-image {
-  aspect-ratio: 13/6;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-  transition: all .3s ease-in;
-}
-
-.news-block:hover .news-header-image {
-  transform: scale(115%);
-}
-
-.news-header {
-  overflow: hidden;
-  aspect-ratio: 13/6;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-  transition: all .3s ease-in;
-}
-
-.news-title {
-  font-size: 1rem;
-  text-align: left;
-  margin: 0.5rem auto;
-  color: var(--text-color);
-  display: block;
-  width: 100%;
-}
-
-.category-link {
-  color: #42b983;
-  font-size: 1rem;
-  transition: all 0.2s;
-}
-
-.category-link:hover {
-  color: #308060;
-  text-decoration: underline 1px #308060;
 }
 </style>

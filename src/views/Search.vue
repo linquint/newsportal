@@ -1,39 +1,24 @@
 <template>
   <div class="view">
-    <h1>Explore by category</h1>
-    <div class="category-list">
+    <section class="list" :style="reading && windowWidth < 721 ? 'display: none' : ''">
+      <form @submit.prevent="search()">
+        <img src="/src/assets/icons/search.png" alt="Search">
+        <input type="text" placeholder="Search query" v-model="query">
+      </form>
 
-      <template v-if="categories == null">
-        <CategorySkeleton v-for="i in 8" />
+      <template v-if="results != null">
+        <Article v-for="i in results.length" :data="results[i - 1]" prefix="/search" @click="reading = true" />
       </template>
+    </section>
 
-      <template v-else-if="categories.length > 0">
-        <Category v-for="i in categories.length" :title="categories[i - 1].title" :count="categories[i - 1].count" @click="routeTo(categories[i - 1].title)" />
-      </template>
-      
-      <span v-else>{{ categoriesError }}</span>
-    </div>
-
-    <form @submit.prevent="search()" class="search-form">
-      <label for="search" class="search-label">Search</label>
-      <div style="display: flex; flex-direction: row; gap: 1.5rem; width: 100%; margin: 0 auto; justify-content: center;">
-        <input type="text" id="search" name="search" placeholder="Search query" v-model="query" class="search-input">
-        <button type="submit" class="search-submit">
-          <img src="/src/assets/icons/search.png" alt="Search" class="search-icon">
-        </button>
+    <section class="reader" v-if="(reading && windowWidth < 721) || (windowWidth > 720)">
+      <div v-if="!reading" style="display: flex; flex-direction: column; height: calc(100% - 60px); justify-content: center;">
+        <span style="font-size: 1.5em; font-weight: bold;">Open an article</span>
+        <span>Select an article from the left side</span>
       </div>
-    </form>
 
-    <div v-if="results != null" class="article-list">
-      <Article v-for="i in results.length" :data="results[i-1]" />
-    </div>
-    <div v-if="message != null">
-      {{ message }}
-    </div>
-
-    <div v-if="searching" class="article-list">
-      <ArticleSkeleton v-for="i in 12" />
-    </div>
+      <div id="viewer" v-else><router-view /></div>
+    </section>
   </div>
 </template>
 
@@ -55,17 +40,9 @@ export default {
       searching: false,
       categories: null,
       categoriesError: '',
+      reading: false,
+      windowWidth: window.innerWidth,
     }
-  },
-  async created() {
-    await axios.get('/api/get-categories.php').then(response => response.data).then(json => {
-      if (json.success) {
-        this.categories = json.list
-      } else {
-        this.categories = []
-        this.categoriesError = json.message
-      }
-    })
   },
   methods: {
     async search() {
@@ -84,12 +61,57 @@ export default {
     },
     routeTo(cat) {
       this.$router.push('/category/' + cat)
-    }
+    },
+    getWidth() {
+      return window.innerWidth;
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize);
+    });
+    this.reading = this.$route.path.includes('article/')
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.onResize);
+  },
+  updated() {
+    this.reading = this.$route.path.includes('article/')
   }
 }
 </script>
 
 <style scoped>
+form {
+  margin: 1em 2em;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+form img {
+  width: 1.25em;
+  height: 1.25em;
+  filter: var(--icon-color);
+  margin: auto 0.75em auto 0;
+}
+form input {
+  width: 100%;
+  font-size: 1em;
+  background: var(--text-tint);
+  border: var(--border-thin);
+  border-radius: 16px;
+  outline: none;
+  padding: 0.5em 1em;
+  color: var(--text-color);
+  transition: all 0.25s;
+}
+form input:focus {
+  border-color: #A0CA97;
+}
+/* 
 .search-form {
   display: flex;
   flex-direction: column;
@@ -145,5 +167,5 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
   gap: 1.5rem;
-}
+} */
 </style>

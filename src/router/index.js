@@ -21,7 +21,16 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Main,
-        meta: { title: 'News - 16min' },
+        meta: { title: 'Latest News - 16min' },
+        children: [
+            {
+                path: '/article/:slug',
+                name: 'Article',
+                component: ReadArticle,
+                props: true,
+                meta: { title: 'Reading article - 16min' }
+            }
+        ]
     },
     {
         path: '/category/:category',
@@ -38,27 +47,37 @@ const routes = [
         children: [
             {
                 path: 'edit',
-                component: edit
-            }
+                component: edit,
+                meta: { title: 'Edit profile - 16min' },
+            },
+            {
+                path: 'login',
+                name: 'Login',
+                component: Login,
+                meta: { title: 'Log in - 16min' },
+            },
+            {
+                path: 'register',
+                name: 'Register',
+                component: Register,
+                meta: { title: 'Register - 16min' }
+            },
         ]
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login,
-        meta: { title: 'Log in - 16min' },
-    },
-    {
-        path: '/register',
-        name: 'Register',
-        component: Register,
-        meta: { title: 'Register - 16min' }
     },
     {
         path: '/search',
         name: 'Search',
         component: Search,
         meta: { title: 'Search - 16min' },
+        children: [
+            {
+                path: '/search/article/:slug',
+                name: 'SearchArticle',
+                component: ReadArticle,
+                props: true,
+                meta: { title: 'Reading article - 16min' }
+            }
+        ]
     },
     {
         path: '/panel',
@@ -68,11 +87,13 @@ const routes = [
         children: [
             {
                 path: 'authors',
-                component: ManageAuthors
+                component: ManageAuthors,
+                meta: { title: 'Manage authors - 16min' },
             },
             {
                 path: 'create',
-                component: CreateAuthor
+                component: CreateAuthor,
+                meta: { title: 'Create author - 16min' },
             }
         ]
     },
@@ -84,20 +105,15 @@ const routes = [
         children: [
             {
                 path: 'articles',
-                component: ArticleList
+                component: ArticleList,
+                meta: { title: 'My written articles - 16min' },
             },
             {
                 path: 'write',
-                component: WriteArticle
+                component: WriteArticle,
+                meta: { title: 'Write a new article - 16min' },
             }
         ]
-    },
-    {
-        path: '/article/:slug',
-        name: 'Article',
-        component: ReadArticle,
-        props: true,
-        meta: { title: 'Article - 16min' }
     },
     {
         path: '/:catchAll(.*)',
@@ -109,7 +125,7 @@ const routes = [
         name: 'Author',
         component: Author,
         props: true,
-        meta: { title: 'Author - 16min' }
+        meta: { title: 'Author profile - 16min' }
     },
     {
         path: '/region/:region',
@@ -119,10 +135,19 @@ const routes = [
         meta: { title: 'Regional News - 16min' }
     },
     {
-        path: '/popular',
+        path: '/trending',
         name: 'Popular',
         component: Popular,
-        meta: { title: 'Explore Most Popular - 16min' }
+        meta: { title: 'Trending News - 16min' },
+        children: [
+            {
+                path: '/trending/article/:slug',
+                name: 'PopularArticle',
+                component: ReadArticle,
+                props: true,
+                meta: { title: 'Reading article - 16min' }
+            }
+        ]
     }
 ]
 

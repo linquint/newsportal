@@ -1,7 +1,5 @@
 <template>
-  <div class="view">
-    <h1>Register</h1>
-
+  <div class="account-container">
     <form @submit.prevent="register()" class="login-form">
       <label for="username" class="login-label">Username <span class="login-required">*</span></label>
       <input type="text" id="username" name="username" class="login-input" minlength="4" maxlength="32" @focusout="checkProfanity()" @focusin="message = null" v-model="details.username">

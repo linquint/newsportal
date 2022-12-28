@@ -1,5 +1,65 @@
 <template>
-  <div v-if="!userDataLoaded">
+  <div class="view">
+    <section class="list" style="overflow: hidden" :style="action && windowWidth < 721 ? 'display: none' : ''">
+      <span v-if="!userDataLoaded">Loading... Please wait...</span>
+
+      <template v-else-if="user.loggedIn">
+        <router-link v-if="user.isAdmin" :to="{name: 'Panel'}" style="text-decoration: none; color: #222;">
+          <div class="account-button">
+            <img src="/src/assets/icons/admin.png" alt="Admin">
+            <span>Admin panel</span>
+          </div>
+        </router-link>
+
+        <router-link v-if="user.isAuthor" :to="{name: 'AuthorPanel'}" style="text-decoration: none; color: #222;">
+          <div class="account-button">
+            <img src="/src/assets/icons/feather.png" alt="Author">
+            <span>Author panel</span>
+          </div>
+        </router-link>
+
+        <router-link to="/" style="text-decoration: none; color: #222; width: min-content;">
+          <div class="account-button">
+            <img src="/src/assets/icons/bookmark-full.png" alt="Saved articles">
+            <span>My saved articles</span>
+          </div>
+        </router-link>
+
+        <router-link to="/" style="text-decoration: none; color: #222; width: min-content;">
+          <div class="account-button">
+            <img src="/src/assets/icons/like-full.png" alt="Rating">
+            <span>My rated articles</span>
+          </div>
+        </router-link>
+
+        <router-link to="/account/edit" style="text-decoration: none; color: #222; width: min-content;">
+          <div class="account-button">Edit profile</div>
+        </router-link>
+
+        <a href="#" style="text-decoration: none; color: #222; width: min-content;">
+          <div @click="logOut()" class="account-logout account-button">Log out</div>
+        </a>
+      </template>
+
+      <template v-else>
+        <h2>You are not logged in</h2>
+        <router-link :to="{name: 'Login'}" style="text-decoration: none; color: #222;" @click="action = true"><div class="account-button">Log In</div></router-link>
+        <router-link :to="{name: 'Register'}" style="text-decoration: none; color: #222;" @click="action = true"><div class="account-button">Register</div></router-link>
+      </template>
+    </section>
+
+    <section class="reader" style="overflow: hidden" v-if="(action && windowWidth < 721) || (windowWidth > 720)">
+      <div v-if="!action" style="display: flex; flex-direction: column; height: calc(100% - 60px); justify-content: center;">
+        <span style="font-size: 1.5em; font-weight: bold;">Select action</span>
+        <span>Select an action to perform from the left side</span>
+      </div>
+
+      <router-view v-else />
+    </section>
+  </div>
+
+
+  <!-- <div v-if="!userDataLoaded">
     <h1>Getting user data...</h1>
   </div>
 
@@ -52,7 +112,7 @@
       <p>or</p>
       <router-link :to="{name: 'Register'}" style="text-decoration: none; color: #222;"><div class="login-button">Register</div></router-link>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -66,6 +126,8 @@ export default {
         loggedIn: false
       },
       userDataLoaded: false,
+      action: false,
+      windowWidth: window.innerWidth,
     }
   },
   async created() {
@@ -88,8 +150,26 @@ export default {
         else this.user.loggedIn = false
         this.userDataLoaded = true
       })
-    }
+    },
+    getWidth() {
+      return window.innerWidth;
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
   },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize);
+    });
+    this.action = this.$route.path.includes('account/')
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.onResize);
+  },
+  updated() {
+    this.action = this.$route.path.includes('account/')
+  }
 }
 </script>
 

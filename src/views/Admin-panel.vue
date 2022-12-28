@@ -1,16 +1,25 @@
 <template>
   <div class="view">
-    <div v-if="admin" class="flex-row" style="margin: 16px auto;">
+    <section class="list" :style="action && windowWidth < 721 ? 'display: none' : ''">
+      <template v-if="admin">
+        <router-link :to="{ path: '/panel/authors' }" style="text-decoration: none;"><div class="account-button">Manage Authors</div></router-link>
+        <router-link :to="{ path: '/panel/create' }" style="text-decoration: none;"><div class="account-button">Create Author</div></router-link>
+      </template>
+    </section>
+
+    <section class="reader" v-if="(action && windowWidth < 721) || (windowWidth > 720)">
+      <span v-if="!admin" class="account-container" style="font-size: 1.5em; font-weight: bold;">You do not have access to this content</span>
+
+      <router-view v-else />
+    </section>
+  </div>
+    <!-- <div v-if="admin" class="flex-row" style="margin: 16px auto;">
       <router-link :to="{ path: '/panel/authors' }" style="text-decoration: none; color: var(--text-color); margin: 0 16px;"><div class="nav-button">Manage Authors</div></router-link>
       <router-link :to="{ path: '/panel/create' }" style="text-decoration: none; color: var(--text-color); margin: 0 16px;"><div class="nav-button">Create Author</div></router-link>
     </div>
 
-    <div v-else>
-      <h2>You're not an administrator</h2>
-    </div>
-
-    <router-view v-if="admin"></router-view>
-  </div>
+    <router-view /> -->
+  
 </template>
 
 <script>
@@ -21,33 +30,34 @@ export default {
   data() {
     return {
       admin: false,
+      action: false,
+      windowWidth: window.innerWidth,
     }
   },
   async created() {
     await axios.post('/api/details.php', { 'request': 'get_access_details' }).then(response => response.data).then(json => {
       if (json.success) this.admin = json.hasAccess
     })
+  },
+  methods: {
+    getWidth() {
+      return window.innerWidth;
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize);
+    });
+    this.action = this.$route.path.includes('panel/')
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.onResize);
+  },
+  updated() {
+    this.action = this.$route.path.includes('panel/')
   }
 }
 </script>
-
-<style scoped>
-.cancel-button {
-  border-radius: 8px;
-  width: 144px;
-  padding: 8px;
-  margin: 16px auto;
-  border: 3px solid #BE3A4E;
-  background-image: linear-gradient(#BE3A4E, #BE3A4E);
-  background-position: 0 50%;
-  background-repeat: no-repeat;
-  background-size: 0 100%;
-  transition: all 0.3s linear;
-}
-
-.cancel-button:hover {
-  transform: scale(115%);
-  background-size: 100% 100%;
-  box-shadow: 0 0 16px 4px #BE3A4Eaa;
-}
-</style>
